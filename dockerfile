@@ -41,20 +41,14 @@ RUN pwsh -command "& {Install-Module -Name Az -AllowClobber -Scope AllUsers -For
     && pwsh -command "& {Install-Module -Name Az.Subscription -Scope AllUsers -AllowPrerelease -Force}"
 
 # Descargar y descomprimir el runner de GitActions
-RUN curl -O -L https://github.com/actions/runner/releases/download/v2.298.0/actions-runner-linux-x64-2.298.0.tar.gz
-RUN tar xzf ./actions-runner-linux-x64-2.298.0.tar.gz
-RUN rm -rf ./actions-runner-linux-x64-2.298.0.tar.gz
+ARG GH_RUNNER_VERSION="2.283.3"
+WORKDIR /actions-runner
+RUN curl -o actions.tar.gz --location "https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz" && \
+    tar -zxf actions.tar.gz && \
+    rm -f actions.tar.gz && \
+    ./bin/installdependencies.sh
 
-# Configurar el runner
-RUN ./config.sh \
-    --url https://github.com/${OWNER}/${REPO} \
-    --token ${TOKEN} \
-    --name ${NAME} 
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
+ENTRYPOINT ["/actions-runner/entrypoint.sh"]
 
-# Establecer el directorio de trabajo
-WORKDIR /_work
-
-
-
-# Ejecutar el runner
-CMD ["./run.sh"]
