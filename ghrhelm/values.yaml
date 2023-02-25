@@ -40,6 +40,7 @@ ghr:
   repo_name: "agentPoolRunner"
   repo_url: "https://github.com/ZundereneWork/agentPoolRunner"
   github_token: "AETFU4YJU2O7ZLGMUOAXDCLD7HISK"
+  name:  "AgentRunnerZun"
 
 autoscaling:
   enabled: true
