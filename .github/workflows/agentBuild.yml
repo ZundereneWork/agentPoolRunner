@@ -1,0 +1,59 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Build_Push_Agent
+
+# Controls when the workflow will run
+on: workflow_dispatch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@main
+      
+      - name: 'Login via Azure CLI'
+        uses:  azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Replace tokens
+        # You may pin to the exact commit or the version.
+        # uses: cschleiden/replace-tokens@8e091844c27eb36853efbfade5ffca07260f0250
+        uses: cschleiden/replace-tokens@v1.2
+        with:
+          # 
+          tokenPrefix: '__'
+          # 
+          tokenSuffix: '__'
+          # 
+          files: 'dockerfile'
+        env:
+          TOKEN:  "'${{secrets.TOKEN}}'"
+          NAME:   "'runnerAgentPool'"
+          OWNER:  "'ZundereneWork'"
+
+      - name: 'Build and push image'
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ env.REGISTRY_LOGIN_SERVER }}
+          username:     ${{ secrets.REGISTRY_USERNAME }}
+          password:     ${{ secrets.REGISTRY_PASSWORD }}
+      - run: |
+          docker build . -t  ${{ env.REGISTRY_LOGIN_SERVER }}/agent:latest
+          docker build . -t  ${{ env.REGISTRY_LOGIN_SERVER }}/agent:${{ github.run_number }}
+          docker push  ${{ env.REGISTRY_LOGIN_SERVER}}/agent:latest
+          docker push  ${{ env.REGISTRY_LOGIN_SERVER }}/agent:${{ github.run_number }}
+  deploy:
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@main
+
+      - name: 'Login via Azure CLI'
+        uses:  azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      
