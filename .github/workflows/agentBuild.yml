@@ -28,42 +28,4 @@ jobs:
           docker build . -t  ${{ vars.REGISTRY_LOGIN_SERVER }}/agent:${{ github.run_number }}
           docker push  ${{ vars.REGISTRY_LOGIN_SERVER}}/agent:latest
           docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agent:${{ github.run_number }}
-  deploy:
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout GitHub Action'
-        uses: actions/checkout@main
-
-      - name: 'Login via Azure CLI'
-        uses:  azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Create Helm chart
-        run: |
-          # az configure --defaults acr=${CLUSTER_NAME}
-          # az acr login -n ${CLUSTER_NAME}
-          cd ./ghrhelm
-          helm package .
-          # helm push ghr-0.0.1.tgz oci://${CLUSTER_NAME}.azurecr.io/ghrunner
-      - name: AKS set context
-        uses: azure/aks-set-context@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          resource-group: ${{ secrets.RESOURCE_GROUP_NAME }}
-          cluster-name: ${{ env.CLUSTER_NAME }}
-          
-      - name: Deploy via Helm
-        run: |
-          cd ./ghrhelm
-          # az configure --defaults acr=${CLUSTER_NAME}
-          # helm pull oci://${CLUSTER_NAME}.azurecr.io/ghrunner/ghr --version 0.0.1
-          helm install AgentRunner ghr-0.0.1.tgz \
-            --set image.repository=${CLUSTER_NAME}.azurecr.io/ghrunner \
-            --set image.tag=latest \
-            --set ghr.github_token=${{ secrets.TOKEN }} \
-            --set ghr.repo_name="" \
-            --set ghr.repo_url="" \
-            --set ghr.repo_owner=ZundereneWork \
-
-      
+  
