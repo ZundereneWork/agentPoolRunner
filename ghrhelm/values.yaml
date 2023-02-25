@@ -37,7 +37,7 @@ resources:
 
 ghr:
   repo_owner: "ZundereneWork"
-  github_token: "AETFU4YJU2O7ZLGMUOAXDCLD7HISK"
+  github_token: ""
   name:  "AgentRunnerZun"
 
 autoscaling:
