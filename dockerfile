@@ -1,6 +1,12 @@
 # Seleccionar imagen base de Docker
 FROM ubuntu:latest
 
+ENV TOKEN=__TOKEN__
+ENV NAME=__NAME__
+ENV WORK=__WORK__
+ENV REPO=__REPO__
+ENV OWNER=__OWNER__
+
 # Actualizar el sistema y instalar dependencias necesarias
 RUN apt-get update && \
     apt-get install -y \
@@ -36,10 +42,10 @@ RUN rm -rf ./actions-runner-linux-x64-2.298.0.tar.gz
 
 # Configurar el runner
 RUN ./config.sh \
-    --url https://github.com/OWNER/REPO \
-    --token TOKEN \
-    --name NAME \
-    --work WORK
+    --url https://github.com/${OWNER}/${REPO} \
+    --token ${TOKEN} \
+    --name ${NAME} \
+    --work ${WORK}
 
 # Establecer el directorio de trabajo
 WORKDIR /_work
