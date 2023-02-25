@@ -39,8 +39,6 @@ jobs:
               --set image.repository=gitacrwest001.azurecr.io/ghrunner \
               --set image.tag=latest \
               --set ghr.github_token=${{ secrets.TOKEN }} \
-              --set ghr.repo_name="" \
-              --set ghr.repo_url="" \
               --set ghr.repo_owner=ZundereneWork \
 
       
