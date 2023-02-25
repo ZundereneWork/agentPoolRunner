@@ -3,7 +3,7 @@
 name: Build_Push_Agent
 
 # Controls when the workflow will run
-on: workflow_dispatch
+on: push
 
 jobs:
   build-and-push:
@@ -24,8 +24,28 @@ jobs:
           username:     ${{ secrets.REGISTRY_USERNAME }}
           password:     ${{ secrets.REGISTRY_PASSWORD }}
       - run: |
-          docker build . -t  ${{ vars.REGISTRY_LOGIN_SERVER }}/agent:latest
-          docker build . -t  ${{ vars.REGISTRY_LOGIN_SERVER }}/agent:${{ github.run_number }}
+          docker build . -t  ${{ vars.REGISTRY_LOGIN_SERVER }}/agent
           docker push  ${{ vars.REGISTRY_LOGIN_SERVER}}/agent:latest
           docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agent:${{ github.run_number }}
-  
+
+      - name: Create Helm chart
+        run: |
+          cd ./ghrhelm
+          helm package .
+          
+      - name: AKS set context
+        uses: azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          resource-group: ${{ vars.RESOURCE_GROUP }}
+          cluster-name: ${{ vars.CLUSTER_NAME }}
+          
+      - name: Deploy via Helm
+        run: |
+          cd ./ghrhelm
+          helm install agentrunner ghr-0.0.1.tgz \
+            --set image.repository=gitacrwest001.azurecr.io/agent \
+            --set image.tag=latest \
+            --set ghr.github_token=${{ secrets.TOKEN }} \
+            --set ghr.repo_owner=ZundereneWork \
+       
