@@ -3,7 +3,7 @@
 name: Build_Push_Agent
 
 # Controls when the workflow will run
-on: workflow_dispatch
+on: push
 
 jobs:
   deploy:
@@ -28,7 +28,7 @@ jobs:
           uses: azure/aks-set-context@v1
           with:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
-            resource-group: ${{ secrets.RESOURCE_GROUP_NAME }}
+            resource-group: ${{ env.RESOURCE_GROUP }}
             cluster-name: ${{ env.CLUSTER_NAME }}
             
         - name: Deploy via Helm
