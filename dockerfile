@@ -41,7 +41,7 @@ RUN pwsh -command "& {Install-Module -Name Az -AllowClobber -Scope AllUsers -For
     && pwsh -command "& {Install-Module -Name Az.Subscription -Scope AllUsers -AllowPrerelease -Force}"
 
 # Descargar y descomprimir el runner de GitActions
-ARG GH_RUNNER_VERSION="2.283.3"
+ARG GH_RUNNER_VERSION="2.301.1"
 WORKDIR /actions-runner
 RUN curl -o actions.tar.gz --location "https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz" && \
     tar -zxf actions.tar.gz && \
