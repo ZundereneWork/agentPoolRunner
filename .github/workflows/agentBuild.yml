@@ -24,8 +24,6 @@ jobs:
           username:     ${{ secrets.REGISTRY_USERNAME }}
           password:     ${{ secrets.REGISTRY_PASSWORD }}
       - run: |
-          docker build . -t  ${{ vars.REGISTRY_LOGIN_SERVER }}/agent
-          docker push  ${{ vars.REGISTRY_LOGIN_SERVER}}/agent
           docker build . -t  ${{ vars.REGISTRY_LOGIN_SERVER }}/agent:${{ github.run_number }}
           docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agent:${{ github.run_number }}
 
@@ -46,7 +44,7 @@ jobs:
           cd ./ghrhelm
           helm install agentrunner ghr-0.0.1.tgz \
             --set image.repository=gitacrwest001.azurecr.io/agent \
-            --set image.tag=latest \
+            --set image.tag=${{ github.run_number }} \
             --set ghr.github_token=${{ secrets.TOKEN }} \
             --set ghr.repo_owner=ZundereneWork \
        
