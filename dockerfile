@@ -1,11 +1,6 @@
 # Seleccionar imagen base de Docker
 FROM ubuntu:latest
 
-ENV TOKEN=__TOKEN__
-ENV NAME=__NAME__
-ENV REPO=__REPO__
-ENV OWNER=__OWNER__
-
 # Actualizar el sistema y instalar dependencias necesarias
 RUN apt-get update && \
     apt-get install -y \
