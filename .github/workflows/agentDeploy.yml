@@ -27,16 +27,16 @@ jobs:
           uses: azure/aks-set-context@v1
           with:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
-            resource-group: ${{ env.RESOURCE_GROUP }}
-            cluster-name: ${{ env.CLUSTER_NAME }}
+            resource-group: ${{ vars.RESOURCE_GROUP }}
+            cluster-name: ${{ vars.CLUSTER_NAME }}
             
         - name: Deploy via Helm
           run: |
             cd ./ghrhelm
             # az configure --defaults acr=${CLUSTER_NAME}
-            # helm pull oci://${CLUSTER_NAME}.azurecr.io/ghrunner/ghr --version 0.0.1
+            # helm pull oci://gitacrwest001.azurecr.io/ghrunner/ghr --version 0.0.1
             helm install AgentRunner ghr-0.0.1.tgz \
-              --set image.repository=${CLUSTER_NAME}.azurecr.io/ghrunner \
+              --set image.repository=gitacrwest001.azurecr.io/ghrunner \
               --set image.tag=latest \
               --set ghr.github_token=${{ secrets.TOKEN }} \
               --set ghr.repo_name="" \
