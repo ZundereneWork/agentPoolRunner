@@ -26,6 +26,7 @@ jobs:
       - run: |
           docker build . -t  ${{ vars.REGISTRY_LOGIN_SERVER }}/agent
           docker push  ${{ vars.REGISTRY_LOGIN_SERVER}}/agent:latest
+          docker build . -t  ${{ vars.REGISTRY_LOGIN_SERVER }}/agent:${{ github.run_number }}
           docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agent:${{ github.run_number }}
 
       - name: Create Helm chart
