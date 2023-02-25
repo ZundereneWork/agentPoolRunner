@@ -24,6 +24,7 @@ jobs:
           username:     ${{ secrets.REGISTRY_USERNAME }}
           password:     ${{ secrets.REGISTRY_PASSWORD }}
       - run: |
+          docker rmi ${{ vars.REGISTRY_LOGIN_SERVER }}/agent:latest
           docker build . -t  ${{ vars.REGISTRY_LOGIN_SERVER }}/agent:latest
           docker build . -t  ${{ vars.REGISTRY_LOGIN_SERVER }}/agent:${{ github.run_number }}
           docker push  ${{ vars.REGISTRY_LOGIN_SERVER}}/agent:latest
