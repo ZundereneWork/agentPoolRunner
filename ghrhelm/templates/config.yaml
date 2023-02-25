@@ -7,4 +7,3 @@ metadata:
 data:
   REPO_OWNER: {{ .Values.ghr.repo_owner }}
   NAME: {{ .Values.ghr.name }}
-  ACTIONS_RUNNER_INPUT_URL: {{ .Values.ghr.repo_url }}
