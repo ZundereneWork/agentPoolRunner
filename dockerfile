@@ -3,7 +3,6 @@ FROM ubuntu:latest
 
 ENV TOKEN=__TOKEN__
 ENV NAME=__NAME__
-ENV WORK=__WORK__
 ENV REPO=__REPO__
 ENV OWNER=__OWNER__
 
@@ -23,7 +22,8 @@ RUN apt-get update && \
         python3 \
         python3-pip \
         python3-setuptools \
-        python3-wheel
+        python3-wheel \
+        wget
 
 # Instalar Docker
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -31,9 +31,14 @@ RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubunt
 RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io
 
 # Instalar Powershell Az
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-RUN pwsh -Command Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-RUN pwsh -Command Install-Module -Name Az -Force
+RUN wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -cs)/packages-microsoft-prod.deb"
+RUN dpkg -i packages-microsoft-prod.deb
+RUN apt-get update 
+RUN apt-get install -y powershell
+
+RUN pwsh -command "& {Install-Module -Name Az -AllowClobber -Scope AllUsers -Force}" \
+    && pwsh -command "& {Install-Module -Name Pester -Scope AllUsers -Force}" \
+    && pwsh -command "& {Install-Module -Name Az.Subscription -Scope AllUsers -AllowPrerelease -Force}"
 
 # Descargar y descomprimir el runner de GitActions
 RUN curl -O -L https://github.com/actions/runner/releases/download/v2.298.0/actions-runner-linux-x64-2.298.0.tar.gz
@@ -44,8 +49,7 @@ RUN rm -rf ./actions-runner-linux-x64-2.298.0.tar.gz
 RUN ./config.sh \
     --url https://github.com/${OWNER}/${REPO} \
     --token ${TOKEN} \
-    --name ${NAME} \
-    --work ${WORK}
+    --name ${NAME} 
 
 # Establecer el directorio de trabajo
 WORKDIR /_work
