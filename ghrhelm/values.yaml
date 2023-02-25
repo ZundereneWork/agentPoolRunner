@@ -5,14 +5,14 @@
 replicaCount: 1
 
 image:
-  repository: ""
+  repository: "gitacrwest001.azurecr.io/agent:latest"
   pullPolicy: IfNotPresent
 
 ingress:
   enabled: false
 
 serviceAccount:
-  create: true
+  create: false
   annotations: {}
   name: ""
 
@@ -36,10 +36,10 @@ resources:
     cpu: "1"
 
 ghr:
-  repo_owner: ""
-  repo_name: ""
-  repo_url: ""
-  github_token: ""
+  repo_owner: "ZundereneWork"
+  repo_name: "agentPoolRunner"
+  repo_url: "https://github.com/ZundereneWork/agentPoolRunner"
+  github_token: "AETFU4YJU2O7ZLGMUOAXDCLD7HISK"
 
 autoscaling:
   enabled: true
