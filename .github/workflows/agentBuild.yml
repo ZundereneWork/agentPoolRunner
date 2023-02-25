@@ -6,7 +6,7 @@ name: Build_Push_Agent
 on: workflow_dispatch
 
 jobs:
-  build-and-deploy:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout GitHub Action'
@@ -45,7 +45,7 @@ jobs:
           docker push  ${{ vars.REGISTRY_LOGIN_SERVER}}/agent:latest
           docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agent:${{ github.run_number }}
   deploy:
-    needs: build-and-deploy
+    needs: build-and-push
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout GitHub Action'
