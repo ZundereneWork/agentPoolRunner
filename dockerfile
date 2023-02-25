@@ -43,6 +43,7 @@ RUN curl -o actions.tar.gz --location "https://github.com/actions/runner/release
     rm -f actions.tar.gz && \
     ./bin/installdependencies.sh
 
+
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 ENTRYPOINT ["/actions-runner/entrypoint.sh"]
