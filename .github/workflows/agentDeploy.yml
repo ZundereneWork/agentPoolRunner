@@ -35,7 +35,7 @@ jobs:
             cd ./ghrhelm
             # az configure --defaults acr=${CLUSTER_NAME}
             # helm pull oci://gitacrwest001.azurecr.io/ghrunner/ghr --version 0.0.1
-            helm install AgentRunner ghr-0.0.1.tgz \
+            helm install agentrunner ghr-0.0.1.tgz \
               --set image.repository=gitacrwest001.azurecr.io/ghrunner \
               --set image.tag=latest \
               --set ghr.github_token=${{ secrets.TOKEN }} \
