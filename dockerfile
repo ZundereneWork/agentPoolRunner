@@ -31,7 +31,7 @@ RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubunt
 RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io
 
 # Instalar Powershell Az
-RUN wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -cs)/packages-microsoft-prod.deb"
+RUN wget -q 'https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb'
 RUN dpkg -i packages-microsoft-prod.deb
 RUN apt-get update 
 RUN apt-get install -y powershell
