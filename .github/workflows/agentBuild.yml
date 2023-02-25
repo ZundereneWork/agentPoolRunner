@@ -46,6 +46,7 @@ jobs:
           cd ./ghrhelm
           helm install agentrunner ghr-0.0.1.tgz \
             --set image.repository=gitacrwest001.azurecr.io/agent \
+            --set image.tag=main \
             --set ghr.github_token=${{ secrets.TOKEN }} \
             --set ghr.repo_owner=ZundereneWork \
        

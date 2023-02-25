@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: "gitacrwest001.azurecr.io/agent:latest"
+  repository: ""
   pullPolicy: IfNotPresent
 
 ingress:
