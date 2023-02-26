@@ -24,7 +24,7 @@ jobs:
           username:     ${{ secrets.REGISTRY_USERNAME }}
           password:     ${{ secrets.REGISTRY_PASSWORD }}
       - run: |
-          docker build -t  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner .
+          docker build -t  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }} .
           docker tag  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }}  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:latest
           docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }} && docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:latest
 
