@@ -32,6 +32,8 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/h
 RUN apt-get update
 RUN apt-get install helm
 
+# Instalar AZ CLI
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb |  bash
 
 # Instalar Powershell Az
 RUN wget -q 'https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb'
