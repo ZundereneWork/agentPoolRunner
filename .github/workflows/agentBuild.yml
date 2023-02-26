@@ -43,8 +43,8 @@ jobs:
       - name: Deploy via Helm
         run: |
           cd ./ghrhelm
-          helm install agentrunner -n AgentRunnerPool ghr-0.0.1.tgz \
-            --set image.repository=gitacrwest001.azurecr.io/agentRunner \
+          helm install agentrunner -n agentrunnerpool ghr-0.0.1.tgz \
+            --set image.repository=gitacrwest001.azurecr.io/agentrunner \
             --set image.tag=latest \
             --set ghr.github_token=${{ secrets.TOKEN }} \
             --set ghr.repo_owner=ZundereneWork \
