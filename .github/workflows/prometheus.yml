@@ -7,7 +7,7 @@ on: [workflow_dispatch]
 
 jobs:
   deploymenPrometheus:
-    runs-on: self-hosted
+    runs-on: AgentRunnerZun
     steps:
       - name: 'Add Prometheus'
         run: |
