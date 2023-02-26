@@ -33,7 +33,7 @@ jobs:
         run: |
           cd ./ghrhelm
           if ( $($(helm list -n agentrunnerpool) | Select-Object -Last 1 | measure).Count -ne 0 ) {
-             helm upgrade agentrunner -n agentrunnerpool ghr-0.0.1.tgz  \
+             helm upgrade agentrunner -n agentrunnerpool   \
               --set image.repository=gitacrwest001.azurecr.io/agentrunner \
               --set image.tag=latest \
               --set ghr.github_token=${{ secrets.TOKEN }} \
