@@ -45,6 +45,6 @@ jobs:
               --set ghr.github_token=${{ secrets.TOKEN }} \
               --set ghr.repo_owner=ZundereneWork \
           }
-        shell: powershell
+        shell: pwsh
           
        
