@@ -28,33 +28,6 @@ jobs:
           docker tag  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }}  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:latest
           docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }} && docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:latest
 
-      - name: Create Helm chart
-        run: |
-          cd ./ghrhelm
-          helm package .
-          
-      - name: AKS set context
-        uses: azure/aks-set-context@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          resource-group: ${{ vars.RESOURCE_GROUP }}
-          cluster-name: ${{ vars.CLUSTER_NAME }}
-          
-      - name: Deploy via Helm
-        run: |
-          cd ./ghrhelm
-          if ( $($(helm list -n agentrunnerpool) | Select-Object  | measure).Count -ne 1 ) {
-             helm upgrade agentrunner hr-0.0.1.tgz -n agentrunnerpool g \
-              --set image.repository=gitacrwest001.azurecr.io/agentrunner \
-              --set image.tag=latest \
-              --set ghr.github_token=${{ secrets.TOKEN }} \
-              --set ghr.repo_owner=ZundereneWork \
-          } else {
-            helm install agentrunner  ghr-0.0.1.tgz -n agentrunnerpool \
-              --set image.repository=gitacrwest001.azurecr.io/agentrunner \
-              --set image.tag=latest \
-              --set ghr.github_token=${{ secrets.TOKEN }} \
-              --set ghr.repo_owner=ZundereneWork \
-          }
+     
           
        
