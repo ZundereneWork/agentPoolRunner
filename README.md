@@ -1,4 +1,4 @@
-# agentPoolRunner [![Build_Push_Agent](https://github.com/ZundereneWork/agentPoolRunner/actions/workflows/agentBuild.yml/badge.svg)](https://github.com/ZundereneWork/agentPoolRunner/actions/workflows/agentBuild.yml)
+# agentPoolRunner [![Build_Push_Agent](https://github.com/ZundereneWork/agentPoolRunner/actions/workflows/agentBuild.yml/badge.svg)](https://github.com/ZundereneWork/agentPoolRunner/actions/workflows/agentBuild.yml) [![Deploy_Agent](https://github.com/ZundereneWork/agentPoolRunner/actions/workflows/agetnHelm.yml/badge.svg)](https://github.com/ZundereneWork/agentPoolRunner/actions/workflows/agetnHelm.yml)
 Runner hostSelf
 
 
