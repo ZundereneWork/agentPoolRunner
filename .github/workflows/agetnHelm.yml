@@ -32,11 +32,10 @@ jobs:
       - name: Deploy via Helm
         run: |
           cd ./ghrhelm
-          if ( $($(helm list -n agentrunnerpool) | Select-Object | measure).Count -ne 1 ) {
-             helm upgrade agentrunner -n agentrunnerpool ghr-0.0.1.tgz --set ghr.github_token=${{ secrets.TOKEN }} --reset-values 
-          } else {
-            helm install agentrunner -n agentrunnerpool  ghr-0.0.1.tgz  --set image.repository=gitacrwest001.azurecr.io/agentrunner --set image.tag=latest --set ghr.github_token=${{ secrets.TOKEN }} --set ghr.repo_owner=ZundereneWork 
-          }
-        shell: pwsh
-          
+          if helm status agentrunner; then
+            helm upgrade agentrunner ghr-0.0.1.tgz --set ghr.github_token=${{ secrets.TOKEN }} --reset-values 
+          else 
+             helm install agentrunner -n agentrunnerpool  ghr-0.0.1.tgz  --set image.repository=gitacrwest001.azurecr.io/agentrunner --set image.tag=latest --set ghr.github_token=${{ secrets.TOKEN }} --set ghr.repo_owner=ZundereneWork 
+          fi
+
        
