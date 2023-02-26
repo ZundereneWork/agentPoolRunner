@@ -43,9 +43,18 @@ jobs:
       - name: Deploy via Helm
         run: |
           cd ./ghrhelm
-          helm install agentrunner -n agentrunnerpool ghr-0.0.1.tgz \
-            --set image.repository=gitacrwest001.azurecr.io/agentrunner \
-            --set image.tag=latest \
-            --set ghr.github_token=${{ secrets.TOKEN }} \
-            --set ghr.repo_owner=ZundereneWork \
+          if ( $($(helm list -n agentrunnerpool) | Select-Object -Last 1 | measure).Count -ne 0 ) {
+             helm upgrade agentrunner hr-0.0.1.tgz -n agentrunnerpool g \
+              --set image.repository=gitacrwest001.azurecr.io/agentrunner \
+              --set image.tag=latest \
+              --set ghr.github_token=${{ secrets.TOKEN }} \
+              --set ghr.repo_owner=ZundereneWork \
+          } else {
+            helm install agentrunner  ghr-0.0.1.tgz -n agentrunnerpool \
+              --set image.repository=gitacrwest001.azurecr.io/agentrunner \
+              --set image.tag=latest \
+              --set ghr.github_token=${{ secrets.TOKEN }} \
+              --set ghr.repo_owner=ZundereneWork \
+          }
+          
        
