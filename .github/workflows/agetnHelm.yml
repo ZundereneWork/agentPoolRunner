@@ -3,7 +3,7 @@
 name: Deploy_Agent
 
 # Controls when the workflow will run
-on: [workflow_dispatch]
+on: [push]
 
 jobs:
   deploymenAgentHelm:
