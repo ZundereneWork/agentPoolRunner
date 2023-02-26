@@ -9,6 +9,16 @@ jobs:
   deploymenPrometheus:
     runs-on: self-hosted
     steps:
+      - name: 'Login via Azure CLI'
+        uses:  azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: AKS set context
+        uses: azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          resource-group: ${{ vars.RESOURCE_GROUP }}
+          cluster-name: ${{ vars.CLUSTER_NAME }}
       - name: 'Add Prometheus'
         run: |
           helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
