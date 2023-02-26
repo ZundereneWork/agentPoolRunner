@@ -6,7 +6,7 @@ name: Build_Push_Agent
 on: [push, workflow_dispatch]
 
 jobs:
-  build-and-push:
+  deploymenAgentHelm:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout GitHub Action'
