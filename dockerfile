@@ -31,7 +31,7 @@ RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com
 RUN sudo apt-get update && sudo apt-get install yarn -y
 
 RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
-RUN apt-get update apt-get install -y nodejs
+RUN apt-get update && apt-get install -y nodejs
 
 # Instalar Docker
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
