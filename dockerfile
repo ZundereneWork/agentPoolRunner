@@ -18,7 +18,8 @@ RUN apt-get update && \
         python3-pip \
         python3-setuptools \
         python3-wheel \
-        wget
+        wget \
+        gnupg
 
 # Instalar Docker
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
