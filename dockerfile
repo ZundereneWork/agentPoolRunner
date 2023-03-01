@@ -2,10 +2,6 @@
 FROM ubuntu:latest
 
 
-
-# Install dependencia de los pack de node 
-RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo bash 
-
 # Actualizar el sistema y instalar dependencias necesarias
 RUN apt-get update && \
     apt-get install -y \
