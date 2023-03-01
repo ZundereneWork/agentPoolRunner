@@ -1,7 +1,7 @@
 # Seleccionar imagen base de Docker
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get install -y curl 
+
 
 # Install dependencia de los pack de node 
 RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo bash 
@@ -9,6 +9,7 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo bash
 # Actualizar el sistema y instalar dependencias necesarias
 RUN apt-get update && \
     apt-get install -y \
+        curl \
         sudo \
         git \
         jq \
@@ -23,8 +24,11 @@ RUN apt-get update && \
         python3-setuptools \
         python3-wheel \
         wget \
-        gnupg \
-        nodejs
+        gnupg 
+
+# Install dependencia de los pack de node 
+RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo bash 
+RUN apt-get update apt-get install -y nodejs
 
 # Instalar Docker
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
