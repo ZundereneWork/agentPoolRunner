@@ -28,7 +28,7 @@ RUN apt-get update && \
 
 # Install dependencia de los pack de node 
 
-RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+RUN curl -sL https://deb.nodesource.com/setup_18.x | sudo bash -
 RUN apt-get update && apt-get install -y nodejs
 
 # Instalar Docker
