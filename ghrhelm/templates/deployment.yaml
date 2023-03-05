@@ -38,15 +38,7 @@ spec:
               name: ghr-config
           - secretRef:
               name: ghr-secret
-          lifecycle:
-            preStop:
-              exec:
-                command:
-                  [
-                    "/bin/bash",
-                    "-c",
-                    'RUNNER_ALLOW_RUNASROOT=1 /actions-runner/config.sh remove --token  "${GH_TOKEN}" ',
-                  ]
+         
           ports:
             - name: https
               containerPort: 443
