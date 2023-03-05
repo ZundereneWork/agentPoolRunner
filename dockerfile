@@ -25,6 +25,7 @@ RUN apt-get update && \
         make \
         gnupg 
 
+
 # Install dependencia de los pack de node 
 
 RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
@@ -56,7 +57,7 @@ RUN pwsh -command "& {Install-Module -Name Az -AllowClobber -Scope AllUsers -For
     && pwsh -command "& {Install-Module -Name Az.Subscription -Scope AllUsers -AllowPrerelease -Force}"
 
 # Descargar y descomprimir el runner de GitActions
-ARG GH_RUNNER_VERSION="2.301.1"
+ARG GH_RUNNER_VERSION="2.302.1"
 WORKDIR /actions-runner
 RUN curl -o actions.tar.gz --location "https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz" && \
     tar -zxf actions.tar.gz && \
