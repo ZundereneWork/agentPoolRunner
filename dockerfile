@@ -18,7 +18,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
 
 # Install dependencia de los pack de node 
 
-RUN curl -sL https://deb.nodesource.com/setup_18.x | sudo bash -
+RUN curl -sL https://deb.nodesource.com/setup_18.x |  bash -
 RUN apt-get update && apt-get install -y nodejs
 
 # Instalar Docker
