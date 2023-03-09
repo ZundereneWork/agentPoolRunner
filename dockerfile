@@ -46,19 +46,10 @@ RUN pwsh -command "& {Install-Module -Name Az -AllowClobber -Scope AllUsers -For
     && pwsh -command "& {Install-Module -Name Pester -Scope AllUsers -Force}" \
     && pwsh -command "& {Install-Module -Name Az.Subscription -Scope AllUsers -AllowPrerelease -Force}"
 
-<<<<<<< HEAD
 # install some additional dependencies
 RUN chown -R docker ~docker && /home/docker/actions-runner/bin/installdependencies.sh
-=======
-# Descargar y descomprimir el runner de GitActions
-ARG GH_RUNNER_VERSION="2.302.1"
-WORKDIR /actions-runner
-RUN curl -o actions.tar.gz --location "https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz" && \
-    tar -zxf actions.tar.gz && \
-    rm -f actions.tar.gz && \
-    ./bin/installdependencies.sh
->>>>>>> 1639e73603652271fc3adac2e39cc65ee8a24fc3
 
+#
 # copy over the start.sh script
 COPY start.sh start.sh
 
