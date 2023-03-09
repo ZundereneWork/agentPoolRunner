@@ -5,5 +5,5 @@ metadata:
   labels:
     {{- include "ghr.labels" . | nindent 4 }}
 data:
-  REPO_OWNER: {{ .Values.ghr.repo_owner }}
+  ORGANIZATION: {{ .Values.ghr.repo_owner }}
   NAME: {{ .Values.ghr.name }}

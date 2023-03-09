@@ -2,28 +2,18 @@
 FROM ubuntu:latest
 
 
-# Actualizar el sistema y instalar dependencias necesarias
-RUN apt-get update && \
-    apt-get install -y \
-        curl \
-        sudo \
-        git \
-        jq \
-        iproute2 \
-        procps \
-        apt-transport-https \
-        ca-certificates \
-        gnupg-agent \
-        software-properties-common \
-        python3 \
-        python3-pip \
-        python3-setuptools \
-        python3-wheel \
-        wget \
-        gcc \
-        g++ \
-        make \
-        gnupg 
+# set the github runner version
+ARG RUNNER_VERSION="2.283.3"
+
+
+# update the base packages and add a non-sudo user
+RUN apt-get update -y && apt-get upgrade -y && useradd -m docker
+
+
+# install python and the packages the your code depends on along with jq so we can parse JSON
+# add additional packages as necessary
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    curl jq build-essential libssl-dev libffi-dev python3 python3-venv python3-dev python3-pip
 
 # Install dependencia de los pack de node 
 
@@ -55,16 +45,18 @@ RUN pwsh -command "& {Install-Module -Name Az -AllowClobber -Scope AllUsers -For
     && pwsh -command "& {Install-Module -Name Pester -Scope AllUsers -Force}" \
     && pwsh -command "& {Install-Module -Name Az.Subscription -Scope AllUsers -AllowPrerelease -Force}"
 
-# Descargar y descomprimir el runner de GitActions
-ARG GH_RUNNER_VERSION="2.301.1"
-WORKDIR /actions-runner
-RUN curl -o actions.tar.gz --location "https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz" && \
-    tar -zxf actions.tar.gz && \
-    rm -f actions.tar.gz && \
-    ./bin/installdependencies.sh
+# install some additional dependencies
+RUN chown -R docker ~docker && /home/docker/actions-runner/bin/installdependencies.sh
 
+# copy over the start.sh script
+COPY start.sh start.sh
 
-COPY entrypoint.sh .
-RUN chmod +x entrypoint.sh
-ENTRYPOINT ["/actions-runner/entrypoint.sh"]
+# make the script executable
+RUN chmod +x start.sh
 
+# since the config and run script for actions are not allowed to be run by root,
+# set the user to "docker" so all subsequent commands are run as the docker user
+USER docker
+
+# set the entrypoint to the start.sh script
+ENTRYPOINT ["./start.sh"]
