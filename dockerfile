@@ -15,9 +15,10 @@ RUN apt-get update -y && apt-get upgrade -y && useradd -m docker
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     curl jq build-essential libssl-dev libffi-dev python3 python3-venv python3-dev python3-pip
 
+
 # Install dependencia de los pack de node 
 
-RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+RUN curl -sL https://deb.nodesource.com/setup_18.x | sudo bash -
 RUN apt-get update && apt-get install -y nodejs
 
 # Instalar Docker
@@ -45,8 +46,18 @@ RUN pwsh -command "& {Install-Module -Name Az -AllowClobber -Scope AllUsers -For
     && pwsh -command "& {Install-Module -Name Pester -Scope AllUsers -Force}" \
     && pwsh -command "& {Install-Module -Name Az.Subscription -Scope AllUsers -AllowPrerelease -Force}"
 
+<<<<<<< HEAD
 # install some additional dependencies
 RUN chown -R docker ~docker && /home/docker/actions-runner/bin/installdependencies.sh
+=======
+# Descargar y descomprimir el runner de GitActions
+ARG GH_RUNNER_VERSION="2.302.1"
+WORKDIR /actions-runner
+RUN curl -o actions.tar.gz --location "https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz" && \
+    tar -zxf actions.tar.gz && \
+    rm -f actions.tar.gz && \
+    ./bin/installdependencies.sh
+>>>>>>> 1639e73603652271fc3adac2e39cc65ee8a24fc3
 
 # copy over the start.sh script
 COPY start.sh start.sh
