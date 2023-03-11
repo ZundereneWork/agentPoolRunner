@@ -29,7 +29,7 @@ RUN curl -sL https://deb.nodesource.com/setup_18.x | sudo bash -
 RUN apt-get update && apt-get install -y nodejs
 
 # Instalar Docker
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg |  apt-key add -
 RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io
 
@@ -52,13 +52,10 @@ RUN pwsh -command "& {Install-Module -Name Az -AllowClobber -Scope AllUsers -For
     && pwsh -command "& {Install-Module -Name Pester -Scope AllUsers -Force}" \
     && pwsh -command "& {Install-Module -Name Az.Subscription -Scope AllUsers -AllowPrerelease -Force}"
 
-# Descargar y descomprimir el runner de GitActions
-ARG GH_RUNNER_VERSION="2.302.1"
-WORKDIR /actions-runner
-RUN curl -o actions.tar.gz --location "https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz" && \
-    tar -zxf actions.tar.gz && \
-    rm -f actions.tar.gz && \
-    ./bin/installdependencies.sh
+# cd into the user directory, download and unzip the github actions runner
+RUN cd /home/docker && mkdir actions-runner && cd actions-runner \
+    && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
+    && tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
 
 # Añadir un usuario sin permisos de root para ejecutar el runner
 RUN useradd -m -s /bin/bash runner && \
